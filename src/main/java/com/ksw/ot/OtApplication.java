@@ -19,8 +19,4 @@ public class OtApplication extends SpringBootServletInitializer {
         return builder.sources(OtApplication.class);
 
     }
-
-    private void fun1() {
-
-    }
 }
