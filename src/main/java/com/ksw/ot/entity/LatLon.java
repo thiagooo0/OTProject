@@ -10,6 +10,10 @@ public class LatLon {
     private float lat;
     private float lon;
 
+    public LatLon() {
+
+    }
+
     public LatLon(int id, float lat, float lon) {
         setId(id);
         setLat(lat);

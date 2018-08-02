@@ -56,7 +56,7 @@ class TravelController {
 //    }
 
     @RequestMapping(value = "/photos", method = RequestMethod.POST)
-    public PhotoList getPhotos(@ModelAttribute int latLonId) {
+    public PhotoList getPhotos(@ModelAttribute String latLonId) {
         File file = new File(path);
         PhotoList photoList = new PhotoList();
         if (file.isDirectory()) {
