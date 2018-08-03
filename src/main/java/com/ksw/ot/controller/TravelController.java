@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +42,7 @@ class TravelController {
      * 登陆
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
+
     public String login(@ModelAttribute String id) {
         if (id != null && !userList.contains(id)) {
             userList.add(id);
@@ -56,14 +62,17 @@ class TravelController {
 //    }
 
     @RequestMapping(value = "/photos", method = RequestMethod.POST)
-    public PhotoList getPhotos(@ModelAttribute String latLonId) {
-        File file = new File(path);
+    public PhotoList getPhotos(String latLonId) {
+        //得到对应地区的目录
+        File placeFile = new File(path + File.separator + latLonId);
         PhotoList photoList = new PhotoList();
-        if (file.isDirectory()) {
-            File[] fileList = file.listFiles();
-            if (fileList != null) {
-                for (File f : fileList) {
-                    photoList.add(new Photo(f.getName()));
+        if (placeFile.exists()) {
+            File[] photoFlies = placeFile.listFiles();
+            if (photoFlies != null) {
+                //逐个文件判断是否图片
+                for (File f : photoFlies) {
+                    if (isPhoto(f.getName()))
+                        photoList.add(new Photo(File.separator + latLonId + File.separator + f.getName()));
                     logger.info("file name:" + f.getName());
                 }
             }
@@ -72,12 +81,44 @@ class TravelController {
     }
 
     @RequestMapping(value = "/places", method = RequestMethod.POST)
-    public Places getPlaces(@ModelAttribute String userId) {
+    public Places getPlaces(String userId) {
+        //得到资源根目录
+        File root = new File(path);
+        File[] placeFileList = root.listFiles();
         Places places = new Places();
-        places.add(new LatLon(1, (float) 123.3433, (float) 32.34234));
-        places.add(new LatLon(2, (float) 123.3733, (float) 32.37234));
-        places.add(new LatLon(3, (float) 123.3133, (float) 32.39234));
+        //逐个地点遍历
+        if (placeFileList != null && placeFileList.length > 0) {
+            for (File place : placeFileList) {
+                if (!place.isDirectory()) {
+                    continue;
+                }
+                try {
+                    //读取LatLon.txt文件
+                    File latLonFile = new File(place.getPath() + "/LatLon.txt");
+                    if (!latLonFile.exists()) {
+                        continue;
+                    }
+                    //读取消息
+                    Reader reader = new BufferedReader(new FileReader(latLonFile));
+                    String firstLine = ((BufferedReader) reader).readLine();
+                    String[] msg = firstLine.split(":");
+                    if (msg.length == 2) {
+                        LatLon latLon = new LatLon(place.getName(),
+                                Float.parseFloat(msg[0]), Float.parseFloat(msg[1]));
+                        places.add(latLon);
+                    }
+                } catch (IOException e) {
+                    logger.info("getPlaces ERROR:\n" + e);
+                    e.printStackTrace();
+                }
+            }
+        }
         logger.info("getPlaces:\n" + places.toString());
         return places;
+    }
+
+    private boolean isPhoto(String fileName) {
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        return "jpg".equals(suffix) || "png".equals(suffix);
     }
 }

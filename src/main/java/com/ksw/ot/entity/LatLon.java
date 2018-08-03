@@ -6,7 +6,7 @@ package com.ksw.ot.entity;
  */
 
 public class LatLon {
-    private int id;
+    private String id;
     private float lat;
     private float lon;
 
@@ -14,7 +14,7 @@ public class LatLon {
 
     }
 
-    public LatLon(int id, float lat, float lon) {
+    public LatLon(String id, float lat, float lon) {
         setId(id);
         setLat(lat);
         setLon(lon);
@@ -36,11 +36,11 @@ public class LatLon {
         this.lon = lon;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
