@@ -1,7 +1,5 @@
 package com.ksw.ot.entity;
 
-import com.sun.org.apache.xpath.internal.operations.Lt;
-
 import java.util.ArrayList;
 
 /**
@@ -29,7 +27,7 @@ public class Places {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Places :");
         for (LatLon latLon : latLons) {
-            stringBuilder.append("\n id : " + latLon.getId() + " ;latlon : " + latLon.getLat() + "|" + latLon.getLon());
+            stringBuilder.append("\n id : " + latLon.getId() + " ;latlon : " + latLon.getLatitude() + "|" + latLon.getLongitude());
         }
         return stringBuilder.toString();
     }

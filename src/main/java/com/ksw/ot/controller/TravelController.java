@@ -43,7 +43,7 @@ class TravelController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
 
-    public String login(@ModelAttribute String id) {
+    public String login(String id) {
         if (id != null && !userList.contains(id)) {
             userList.add(id);
         }
@@ -86,6 +86,7 @@ class TravelController {
         File root = new File(path);
         File[] placeFileList = root.listFiles();
         Places places = new Places();
+        int id = 1;
         //逐个地点遍历
         if (placeFileList != null && placeFileList.length > 0) {
             for (File place : placeFileList) {
@@ -103,8 +104,9 @@ class TravelController {
                     String firstLine = ((BufferedReader) reader).readLine();
                     String[] msg = firstLine.split(":");
                     if (msg.length == 2) {
-                        LatLon latLon = new LatLon(place.getName(),
-                                Float.parseFloat(msg[0]), Float.parseFloat(msg[1]));
+                        LatLon latLon = new LatLon(id++,
+                                Float.parseFloat(msg[0]), Float.parseFloat(msg[1]),
+                                place.getName());
                         places.add(latLon);
                     }
                 } catch (IOException e) {

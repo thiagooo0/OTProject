@@ -6,41 +6,51 @@ package com.ksw.ot.entity;
  */
 
 public class LatLon {
-    private String id;
-    private float lat;
-    private float lon;
+    private int id;
+    private float latitude;
+    private float longitude;
+    private String name;
 
     public LatLon() {
 
     }
 
-    public LatLon(String id, float lat, float lon) {
+    public LatLon(int id, float latitude, float longitude, String name) {
         setId(id);
-        setLat(lat);
-        setLon(lon);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setName(name);
     }
 
-    public float getLat() {
-        return lat;
+    public String getName() {
+        return name;
     }
 
-    public void setLat(float lat) {
-        this.lat = lat;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public float getLon() {
-        return lon;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setLon(float lon) {
-        this.lon = lon;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
-    public String getId() {
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
