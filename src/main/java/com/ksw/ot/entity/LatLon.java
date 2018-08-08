@@ -10,6 +10,7 @@ public class LatLon {
     private float latitude;
     private float longitude;
     private String name;
+    private Callout callout;
 
     public LatLon() {
 
@@ -20,6 +21,7 @@ public class LatLon {
         setLatitude(latitude);
         setLongitude(longitude);
         setName(name);
+        setCallout(new Callout(name));
     }
 
     public String getName() {
@@ -52,5 +54,13 @@ public class LatLon {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Callout getCallout() {
+        return callout;
+    }
+
+    public void setCallout(Callout callout) {
+        this.callout = callout;
     }
 }
